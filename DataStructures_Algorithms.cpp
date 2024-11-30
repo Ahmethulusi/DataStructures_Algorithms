@@ -236,3 +236,144 @@ int main() {
     return 0;
 }
 
+
+// Selection Sort 
+
+#include <stdio.h>
+
+void selectionSort(int dizi[], int boyut) {
+    for (int i = 0; i < boyut - 1; i++) {
+        int minIndex = i;
+        for (int j = i + 1; j < boyut; j++) {
+            if (dizi[j] < dizi[minIndex]) {
+                minIndex = j;
+            }
+        }
+        // Değiştir
+        int temp = dizi[minIndex];
+        dizi[minIndex] = dizi[i];
+        dizi[i] = temp;
+    }
+}
+
+int main() {
+    int dizi[] = {64, 25, 12, 22, 11};
+    int boyut = sizeof(dizi) / sizeof(dizi[0]);
+    
+    selectionSort(dizi, boyut);
+    
+    printf("Sıralı dizi: \n");
+    for (int i = 0; i < boyut; i++) {
+        printf("%d ", dizi[i]);
+    }
+    
+    return 0;
+}
+
+// Insertion Sort
+
+#include <stdio.h>
+
+void insertionSort(int dizi[], int boyut) {
+    for (int i = 1; i < boyut; i++) {
+        int anahtar = dizi[i];
+        int j = i - 1;
+
+        // Anahtar elemanı doğru konumuna yerleştir
+        while (j >= 0 && dizi[j] > anahtar) {
+            dizi[j + 1] = dizi[j];
+            j--;
+        }
+        dizi[j + 1] = anahtar;
+    }
+}
+
+int main() {
+    int dizi[] = { 12, 11, 13, 5, 6 };
+    int boyut = sizeof(dizi) / sizeof(dizi[0]);
+
+    insertionSort(dizi, boyut);
+
+    printf("Sıralı dizi: \n");
+    for (int i = 0; i < boyut; i++) {
+        printf("%d ", dizi[i]);
+    }
+
+    return 0;
+}
+
+
+// Merge Sort
+
+#include <stdio.h>
+
+void merge(int dizi[], int sol, int orta, int sag) {
+    int i, j, k;
+    int n1 = orta - sol + 1;
+    int n2 = sag - orta;
+
+    int solDizi[n1], sagDizi[n2];
+
+    // Sol ve sağ alt dizileri kopyala
+    for (i = 0; i < n1; i++)
+        solDizi[i] = dizi[sol + i];
+    for (j = 0; j < n2; j++)
+        sagDizi[j] = dizi[orta + 1 + j];
+
+    i = 0; // İlk alt dizi için başlangıç
+    j = 0; // İkinci alt dizi için başlangıç
+    k = sol; // Birleştirilmiş dizi için başlangıç
+
+    // Alt dizileri birleştir
+    while (i < n1 && j < n2) {
+        if (solDizi[i] <= sagDizi[j]) {
+            dizi[k] = solDizi[i];
+            i++;
+        }
+        else {
+            dizi[k] = sagDizi[j];
+            j++;
+        }
+        k++;
+    }
+
+    // Kalan elemanları kopyala
+    while (i < n1) {
+        dizi[k] = solDizi[i];
+        i++;
+        k++;
+    }
+
+    while (j < n2) {
+        dizi[k] = sagDizi[j];
+        j++;
+        k++;
+    }
+}
+
+void mergeSort(int dizi[], int sol, int sag) {
+    if (sol < sag) {
+        int orta = sol + (sag - sol) / 2;
+
+        // Sol ve sağ alt dizileri sırala
+        mergeSort(dizi, sol, orta);
+        mergeSort(dizi, orta + 1, sag);
+
+        // Alt dizileri birle ```c
+        merge(dizi, sol, orta, sag);
+    }
+}
+
+int main() {
+    int dizi[] = { 38, 27, 43, 3, 9, 82, 10 };
+    int boyut = sizeof(dizi) / sizeof(dizi[0]);
+
+    mergeSort(dizi, 0, boyut - 1);
+
+    printf("Sıralı dizi: \n");
+    for (int i = 0; i < boyut; i++) {
+        printf("%d ", dizi[i]);
+    }
+
+    return 0;
+}
